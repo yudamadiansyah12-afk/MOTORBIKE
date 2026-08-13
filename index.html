@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Game Motor 3D Mobile - Menu Utama</title>
+    <title>Game Motor 3D Mobile & PC</title>
     <style>
         * {
             box-sizing: border-box;
@@ -27,6 +27,61 @@
             display: block;
         }
 
+        /* LAYAR MENU UTAMA */
+        #main-menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #120524 0%, #3a1c5d 50%, #d35400 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #main-menu h1 {
+            font-size: 48px;
+            margin: 0;
+            color: #f1c40f;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            letter-spacing: 2px;
+        }
+
+        #main-menu p {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            max-width: 500px;
+            line-height: 1.5;
+        }
+
+        .btn-start {
+            padding: 16px 45px;
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            touch-action: manipulation;
+        }
+
+        .btn-start:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.6);
+        }
+
+        /* UI IN-GAME */
         #ui {
             position: absolute;
             top: 15px;
@@ -34,7 +89,7 @@
             color: white;
             pointer-events: none;
             z-index: 5;
-            display: flex;
+            display: none;
             flex-direction: column;
             gap: 6px;
         }
@@ -71,7 +126,7 @@
             border-radius: 50%;
             color: white;
             font-size: 20px;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 10;
@@ -94,12 +149,8 @@
             backdrop-filter: blur(5px);
             touch-action: manipulation;
             z-index: 10;
+            display: none;
             box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-        }
-
-        #btn-pov-single:active {
-            background: #e67e22;
-            color: white;
         }
 
         .overlay-screen {
@@ -115,23 +166,12 @@
             justify-content: center;
             align-items: center;
             z-index: 20;
-            padding: 20px;
-            text-align: center;
         }
 
         .overlay-screen h1 {
-            font-size: 38px;
+            font-size: 42px;
             margin-bottom: 10px;
             color: #ff4757;
-            text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
-        }
-
-        .subtitle {
-            font-size: 16px;
-            color: #ccc;
-            max-width: 400px;
-            line-height: 1.5;
-            margin-bottom: 20px;
         }
 
         .final-stats {
@@ -141,28 +181,24 @@
         }
 
         .action-btn {
-            margin-top: 15px;
-            padding: 15px 40px;
+            margin-top: 25px;
+            padding: 15px 35px;
             font-size: 20px;
-            background-color: #2ecc71;
+            background-color: #ea2027;
             color: white;
             border: none;
             border-radius: 25px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-            transition: transform 0.1s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        .action-btn:active {
-            transform: scale(0.95);
-        }
-
+        /* KONTROL MOBILE */
         .controls {
             position: absolute;
             bottom: 20px;
             width: 100%;
-            display: flex;
+            display: none;
             justify-content: space-between;
             padding: 0 15px;
             z-index: 10;
@@ -234,6 +270,12 @@
 </head>
 <body>
 
+    <div id="main-menu">
+        <h1>MOTOR 3D RIDER</h1>
+        <p>Gunakan Layar Sentuh Mobile atau Keyboard Laptop (W/A/S/D / Tombol Panah & 1/2/3 untuk Gaya)!</p>
+        <button class="btn-start" onclick="startGame()">MULAI GAME</button>
+    </div>
+
     <div id="ui">
         <div class="score-box">Skor: <span id="score">0</span></div>
         <div class="speed-box"><span id="speed">0</span> <small style="font-size: 16px;">km/h</small></div>
@@ -243,27 +285,21 @@
     <div id="btn-pause-ui" onclick="togglePause()">⏸️</div>
     <div id="btn-pov-single" onclick="cyclePOV()">📷 POV: BELAKANG</div>
 
-    <div id="start-screen" class="overlay-screen" style="display: flex;">
-        <h1 style="color: #f1c40f;">MOTOR 3D MOBILE</h1>
-        <p class="subtitle">Kendalikan motormu, hindari rintangan di jalan, dan lakukan berbagai aksi atraksi keren!</p>
-        <button class="action-btn" onclick="startGame()">Mulai Game 🚀</button>
-    </div>
-
     <div id="pause-screen" class="overlay-screen">
         <h1 style="color: #f1c40f;">GAME PAUSED</h1>
-        <button class="action-btn" onclick="togglePause()">Lanjutkan</button>
+        <button class="action-btn" style="background-color: #2ecc71;" onclick="togglePause()">Lanjutkan</button>
     </div>
 
     <div id="game-over" class="overlay-screen">
         <h1>GAME OVER</h1>
         <div class="final-stats">Total Skor: <span id="final-score">0</span></div>
         <div class="final-stats">Poin Gaya: <span id="final-stunt-score">0</span></div>
-        <button class="action-btn" style="background-color: #ea2027;" onclick="resetGame()">Main Lagi</button>
+        <button class="action-btn" onclick="resetGame()">Main Lagi</button>
     </div>
 
     <div id="canvas-container"></div>
 
-    <div class="controls">
+    <div class="controls" id="game-controls">
         <div class="btn-group">
             <div class="horizontal-btns">
                 <div class="btn" id="btn-left">◀</div>
@@ -299,9 +335,9 @@
         let clouds = [];
         let sunGroup;
         let obstacles = [];
-        let obstacleSpawnTimer = 0;
+        let lastObstacleZ = 0;
         
-        let isGameStarted = false;
+        let gameStarted = false;
         let isGameOver = false;
         let isPaused = false;
 
@@ -373,7 +409,7 @@
         }
 
         function updateSound() {
-            if (!soundReady || !audioCtx || isGameOver || isPaused || !isGameStarted) return;
+            if (!soundReady || !audioCtx || !gameStarted || isGameOver || isPaused) return;
             try {
                 if (audioCtx.state === 'suspended') audioCtx.resume();
 
@@ -430,6 +466,18 @@
             updateCameraPosition();
         }
 
+        function startGame() {
+            initAudio();
+            gameStarted = true;
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('ui').style.display = 'flex';
+            document.getElementById('btn-pause-ui').style.display = 'flex';
+            document.getElementById('btn-pov-single').style.display = 'block';
+            document.getElementById('game-controls').style.display = 'flex';
+            
+            resetGame();
+        }
+
         function init() {
             const container = document.getElementById('canvas-container');
 
@@ -466,12 +514,6 @@
 
             updateCameraPosition();
             animate();
-        }
-
-        function startGame() {
-            initAudio();
-            isGameStarted = true;
-            document.getElementById('start-screen').style.display = 'none';
         }
 
         function createSunsetGradient() {
@@ -525,7 +567,7 @@
             const curbGeo = new THREE.BoxGeometry(0.8, 0.2, SEGMENT_SIZE);
             const curbMat = new THREE.MeshStandardMaterial({ color: 0x7f8c8d });
 
-            for (let i = -1; i < NUM_SEGMENTS - 1; i++) {
+            for (let i = 0; i < NUM_SEGMENTS; i++) {
                 const zPos = -i * SEGMENT_SIZE;
 
                 const gMesh = new THREE.Mesh(groundGeo, groundMat);
@@ -778,29 +820,53 @@
         }
 
         function spawnObstacle() {
-            if (isGameOver || isPaused || !isGameStarted) return;
+            if (!gameStarted || isGameOver || isPaused) return;
+
+            const spawnZ = player.position.z - 120;
+            if (lastObstacleZ - spawnZ < 35) return; 
 
             const wallGroup = new THREE.Group();
-            const blockGeo = new THREE.BoxGeometry(2.8, 1.2, 0.8);
-            const blockMat = new THREE.MeshStandardMaterial({ color: 0x7f8c8d, roughness: 0.9 });
+            
+            const blockGeo = new THREE.BoxGeometry(2.5, 1.2, 0.8);
+            const blockMat = new THREE.MeshStandardMaterial({ color: 0x7f8c8d, roughness: 0.8 });
             const block = new THREE.Mesh(blockGeo, blockMat);
             block.position.y = 0.6;
             wallGroup.add(block);
 
-            const stripeGeo = new THREE.BoxGeometry(2.82, 0.3, 0.82);
+            const stripeGeo = new THREE.BoxGeometry(2.52, 0.3, 0.82);
             const stripeMat = new THREE.MeshStandardMaterial({ color: 0xe67e22 });
             const stripe = new THREE.Mesh(stripeGeo, stripeMat);
             stripe.position.y = 0.7;
             wallGroup.add(stripe);
 
-            const randomX = (Math.random() - 0.5) * (roadWidth - 3.2);
-            wallGroup.position.set(randomX, 0, player.position.z - 120);
+            const lanes = [-2.8, 0, 2.8];
+            const randomLane = lanes[Math.floor(Math.random() * lanes.length)];
+
+            wallGroup.position.set(randomLane, 0, spawnZ);
 
             scene.add(wallGroup);
             obstacles.push(wallGroup);
+            lastObstacleZ = spawnZ;
+        }
+
+        function setStuntMode(mode, text) {
+            if(!isGameOver && !isPaused && gameStarted) {
+                currentStuntMode = mode;
+                updateSound();
+                const stuntStatus = document.getElementById('stunt-status');
+                stuntStatus.innerText = text;
+                stuntStatus.style.display = 'block';
+            }
+        }
+
+        function clearStuntMode() {
+            currentStuntMode = 0;
+            updateSound();
+            document.getElementById('stunt-status').style.display = 'none';
         }
 
         function setupControls() {
+            // Kontrol Touch / Mobile
             const bind = (id, start, end) => {
                 const el = document.getElementById(id);
                 el.addEventListener('touchstart', (e) => { e.preventDefault(); initAudio(); start(); });
@@ -814,30 +880,44 @@
             bind('btn-gas', () => { isAccelerating = true; updateSound(); }, () => { isAccelerating = false; updateSound(); });
             bind('btn-brake', () => { isBraking = true; updateSound(); }, () => { isBraking = false; updateSound(); });
 
-            const stuntStatus = document.getElementById('stunt-status');
-
-            const setStuntMode = (mode, text) => {
-                if(!isGameOver && !isPaused && isGameStarted) {
-                    currentStuntMode = mode;
-                    updateSound();
-                    stuntStatus.innerText = text;
-                    stuntStatus.style.display = 'block';
-                }
-            };
-
-            const clearStuntMode = () => {
-                currentStuntMode = 0;
-                updateSound();
-                stuntStatus.style.display = 'none';
-            };
-
             bind('btn-stunt1', () => setStuntMode(1, '🔥 WHEELIE!'), clearStuntMode);
             bind('btn-stunt2', () => setStuntMode(2, '⚡ STOPPIE!'), clearStuntMode);
             bind('btn-stunt3', () => setStuntMode(3, '🚀 SUPERMAN!'), clearStuntMode);
+
+            // KONTROL KEYBOARD / PC
+            window.addEventListener('keydown', (e) => {
+                if (!gameStarted) return;
+                initAudio();
+                const key = e.key.toLowerCase();
+
+                if (key === 'arrowleft' || key === 'a') moveLeft = true;
+                if (key === 'arrowright' || key === 'd') moveRight = true;
+                if (key === 'arrowup' || key === 'w') { isAccelerating = true; updateSound(); }
+                if (key === 'arrowdown' || key === 's') { isBraking = true; updateSound(); }
+
+                if (key === '1') setStuntMode(1, '🔥 WHEELIE!');
+                if (key === '2') setStuntMode(2, '⚡ STOPPIE!');
+                if (key === '3') setStuntMode(3, '🚀 SUPERMAN!');
+
+                if (key === 'c') cyclePOV();
+                if (key === 'p' || key === 'escape') togglePause();
+            });
+
+            window.addEventListener('keyup', (e) => {
+                if (!gameStarted) return;
+                const key = e.key.toLowerCase();
+
+                if (key === 'arrowleft' || key === 'a') moveLeft = false;
+                if (key === 'arrowright' || key === 'd') moveRight = false;
+                if (key === 'arrowup' || key === 'w') { isAccelerating = false; updateSound(); }
+                if (key === 'arrowdown' || key === 's') { isBraking = false; updateSound(); }
+
+                if (key === '1' || key === '2' || key === '3') clearStuntMode();
+            });
         }
 
         function togglePause() {
-            if (isGameOver || !isGameStarted) return;
+            if (isGameOver || !gameStarted) return;
             isPaused = !isPaused;
             document.getElementById('pause-screen').style.display = isPaused ? 'flex' : 'none';
             if (isPaused && masterGain) {
@@ -855,131 +935,157 @@
             }
 
             if (activePov === 'DRIVER') {
-                camera.position.set(player.position.x, 1.45, player.position.z - 0.2);
-                camera.lookAt(player.position.x, 1.2, player.position.z - 15);
+                camera.position.set(player.position.x, player.position.y + 1.45, player.position.z - 0.2);
+                camera.lookAt(player.position.x, player.position.y + 1.2, player.position.z - 15);
             } else if (activePov === 'LEFT') {
-                camera.position.set(player.position.x - 5.5, 2.2, player.position.z + 1.2);
-                camera.lookAt(player.position.x, 1.2, player.position.z - 2.5);
+                camera.position.set(player.position.x - 5.5, player.position.y + 2.2, player.position.z + 1.2);
+                camera.lookAt(player.position.x, player.position.y + 1.2, player.position.z - 2.5);
             } else if (activePov === 'RIGHT') {
-                camera.position.set(player.position.x + 5.5, 2.2, player.position.z + 1.2);
-                camera.lookAt(player.position.x, 1.2, player.position.z - 2.5);
+                camera.position.set(player.position.x + 5.5, player.position.y + 2.2, player.position.z + 1.2);
+                camera.lookAt(player.position.x, player.position.y + 1.2, player.position.z - 2.5);
             } else if (activePov === 'FRONT') {
-                camera.position.set(player.position.x * 0.35, 2.2, player.position.z - 6.5);
-                camera.lookAt(player.position.x, 1.1, player.position.z);
-            } else { // BACK
-                camera.position.set(player.position.x * 0.35, 3.5, player.position.z + 6.5);
-                camera.lookAt(player.position.x, 1.0, player.position.z - 4.0);
+                camera.position.set(player.position.x * 0.35, player.position.y + 2.2, player.position.z - 6.5);
+                camera.lookAt(player.position.x, player.position.y + 1.1, player.position.z);
+            } else {
+                camera.position.set(player.position.x * 0.35, player.position.y + 3.5, player.position.z + 6.5);
+                camera.lookAt(player.position.x, player.position.y + 1.2, player.position.z - 4);
             }
         }
 
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+        function animate() {
+            requestAnimationFrame(animate);
 
-        function handleGameLogic() {
-            if (isGameOver || isPaused || !isGameStarted) return;
-
-            // Perhitungan Kecepatan
-            let targetSpeed = baseMinSpeedKmh;
-            if (isAccelerating) targetSpeed = 160;
-            if (isBraking) targetSpeed = 10;
-
-            if (currentSpeedKmh < targetSpeed) {
-                currentSpeedKmh += isAccelerating ? 1.2 : 0.6;
-            } else if (currentSpeedKmh > targetSpeed) {
-                currentSpeedKmh -= isBraking ? 2.5 : 0.8;
+            if (!gameStarted) {
+                renderer.render(scene, camera);
+                return;
             }
 
-            const speedUnits = currentSpeedKmh * 0.015;
-            player.position.z -= speedUnits;
+            if (isGameOver || isPaused) return;
 
-            // Kontrol Belok
-            const maxLateral = roadWidth / 2 - 0.5;
-            let targetRotZ = 0;
-
-            if (moveLeft && player.position.x > -maxLateral) {
-                player.position.x -= 0.16;
-                targetRotZ = 0.25;
-            }
-            if (moveRight && player.position.x < maxLateral) {
-                player.position.x += 0.16;
-                targetRotZ = -0.25;
+            if (isAccelerating) {
+                currentSpeedKmh += 0.9;
+            } else if (isBraking) {
+                if (currentSpeedKmh > 0) currentSpeedKmh -= 1.8;
+                if (currentSpeedKmh < 0) currentSpeedKmh = 0;
+            } else {
+                if (currentSpeedKmh > baseMinSpeedKmh) currentSpeedKmh -= 0.6;
             }
 
+            updateSound();
+
+            let moveSpeed = currentSpeedKmh * 0.007;
+            player.position.z -= moveSpeed;
+
+            if (frontWheelMesh && backWheelMesh) {
+                frontWheelMesh.rotation.x += moveSpeed * 2.5;
+                backWheelMesh.rotation.x += moveSpeed * 2.5;
+            }
+
+            if (brakeLightMesh && brakeLightPoint) {
+                if (isBraking) {
+                    brakeLightMesh.material.color.setHex(0xff0000);
+                    brakeLightPoint.intensity = 2.0;
+                } else {
+                    brakeLightMesh.material.color.setHex(0x660000);
+                    brakeLightPoint.intensity = 0;
+                }
+            }
+
+            if (exhaustFlameGroup) {
+                if (isAccelerating && currentSpeedKmh > 90) {
+                    exhaustFlameGroup.visible = true;
+                    const scale = 0.8 + Math.random() * 0.5;
+                    exhaustFlameGroup.scale.set(scale, scale, scale * 1.2);
+                    flameLight.intensity = 1.0 + Math.random() * 0.8;
+                } else {
+                    exhaustFlameGroup.visible = false;
+                }
+            }
+
+            if (sparkParticles) {
+                if (isBraking && currentSpeedKmh > 55) {
+                    sparkParticles.visible = true;
+                    const positions = sparkParticles.geometry.attributes.position.array;
+                    for (let i = 0; i < positions.length; i += 3) {
+                        positions[i] = (Math.random() - 0.5) * 0.4;
+                        positions[i+1] = Math.random() * 0.3;
+                        positions[i+2] = Math.random() * 0.5;
+                    }
+                    sparkParticles.geometry.attributes.position.needsUpdate = true;
+                } else {
+                    sparkParticles.visible = false;
+                }
+            }
+
+            let targetRotZ = moveLeft ? 0.25 : (moveRight ? -0.25 : 0);
             currentRotZ += (targetRotZ - currentRotZ) * 0.1;
             player.rotation.z = currentRotZ;
 
-            // Logika Atraksi (Stunt)
+            if (moveLeft && player.position.x > -roadWidth / 2 + 0.9) player.position.x -= 0.15;
+            if (moveRight && player.position.x < roadWidth / 2 - 0.9) player.position.x += 0.15;
+
+            // AKSI & ANIMASI NATURAL TANPA TEMBUS ROAD (Y-Offset Calculation)
             let targetRotX = 0;
-            if (currentStuntMode === 1) targetRotX = -0.55; // Wheelie
-            if (currentStuntMode === 2) targetRotX = 0.40;  // Stoppie
-            if (currentStuntMode === 3) targetRotX = -0.20; // Superman
+            let targetRiderRotX = 0;
+            let targetRiderPosZ = 0;
+            let targetPosY = 0; // Mengangkat motor agar ban tidak tembus jalan
+
+            if (currentStuntMode === 1) { // WHEELIE
+                targetRotX = -0.45;
+                targetPosY = 0.42; // Mengangkat pusat motor saat ban depan diangkat
+                stuntScore += 2;
+            } else if (currentStuntMode === 2) { // STOPPIE
+                targetRotX = 0.35;
+                targetPosY = 0.32; // Mengangkat belakang motor saat ban belakang diangkat
+                stuntScore += 3;
+            } else if (currentStuntMode === 3) { // SUPERMAN
+                targetRiderRotX = 1.1; 
+                targetRiderPosZ = 0.65;
+                stuntScore += 4;
+            }
 
             currentRotX += (targetRotX - currentRotX) * 0.1;
             player.rotation.x = currentRotX;
+            player.position.y += (targetPosY - player.position.y) * 0.1;
 
-            // Efek Visual
-            if (isBraking) {
-                brakeLightMesh.material.color.setHex(0xff0000);
-                brakeLightPoint.intensity = 2.0;
-            } else {
-                brakeLightMesh.material.color.setHex(0x660000);
-                brakeLightPoint.intensity = 0;
+            if (riderGroup) {
+                riderGroup.rotation.x += (targetRiderRotX - riderGroup.rotation.x) * 0.1;
+                riderGroup.position.z += (targetRiderPosZ - riderGroup.position.z) * 0.1;
             }
 
-            if (isAccelerating) {
-                exhaustFlameGroup.visible = true;
-                flameLight.intensity = 1.5 + Math.random() * 1.0;
-            } else {
-                exhaustFlameGroup.visible = false;
-                flameLight.intensity = 0;
-            }
+            updateCameraPosition();
 
-            sparkParticles.visible = (currentStuntMode === 1);
-
-            // Perputaran Roda
-            const wheelRotSpeed = speedUnits * 2.0;
-            if (frontWheelMesh) frontWheelMesh.rotation.x += wheelRotSpeed;
-            if (backWheelMesh) backWheelMesh.rotation.x += wheelRotSpeed;
-
-            // Skor
-            distanceScore += Math.floor(speedUnits * 2);
-            if (currentStuntMode > 0) stuntScore += 5;
-            totalScore = distanceScore + stuntScore;
-
-            document.getElementById('score').innerText = totalScore;
-            document.getElementById('speed').innerText = Math.round(currentSpeedKmh);
-
-            // Daur Ulang Dunia (Endless World)
-            groundSegments.forEach(g => {
-                if (g.position.z > player.position.z + SEGMENT_SIZE) {
-                    g.position.z -= NUM_SEGMENTS * SEGMENT_SIZE;
-                }
-            });
-
+            // LOOPING JALANAN DAN GROUND
+            const totalLength = NUM_SEGMENTS * SEGMENT_SIZE;
+            
             roadSegments.forEach(r => {
                 if (r.position.z > player.position.z + SEGMENT_SIZE) {
-                    r.position.z -= NUM_SEGMENTS * SEGMENT_SIZE;
+                    r.position.z -= totalLength;
+                }
+            });
+            
+            groundSegments.forEach(g => {
+                if (g.position.z > player.position.z + SEGMENT_SIZE) {
+                    g.position.z -= totalLength;
                 }
             });
 
             streetLights.forEach(lamp => {
                 if (lamp.position.z > player.position.z + 20) {
-                    lamp.position.z -= 1000;
+                    lamp.position.z -= 900;
                 }
             });
 
             trees.forEach(tree => {
                 if (tree.position.z > player.position.z + 20) {
-                    tree.position.z -= 1000;
+                    tree.position.z -= 900;
                 }
             });
 
             clouds.forEach(cloud => {
-                if (cloud.position.z > player.position.z + 20) {
-                    cloud.position.z -= 1050;
+                cloud.position.z += 0.05;
+                if (cloud.position.z > player.position.z + 30) {
+                    cloud.position.z -= 950;
                 }
             });
 
@@ -987,69 +1093,103 @@
                 sunGroup.position.z = player.position.z - 450;
             }
 
-            // Kemunculan Rintangan
-            obstacleSpawnTimer++;
-            if (obstacleSpawnTimer > 120) {
-                spawnObstacle();
-                obstacleSpawnTimer = 0;
+            if (Math.random() < 0.03) spawnObstacle();
+
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                let diffX = Math.abs(player.position.x - obs.position.x);
+                let diffZ = Math.abs(player.position.z - obs.position.z);
+
+                if (diffX < 1.3 && diffZ < 1.0) {
+                    endGame();
+                }
+
+                if (obs.position.z > player.position.z + 10) {
+                    scene.remove(obs);
+                    obstacles.splice(i, 1);
+                }
             }
 
-            // Cek Tabrakan
-            obstacles.forEach((obs, index) => {
-                const dz = Math.abs(player.position.z - obs.position.z);
-                const dx = Math.abs(player.position.x - obs.position.x);
+            distanceScore = Math.floor(-player.position.z);
+            totalScore = distanceScore + stuntScore;
+            document.getElementById('score').innerText = totalScore;
+            document.getElementById('speed').innerText = Math.floor(currentSpeedKmh);
 
-                if (dz < 1.2 && dx < 1.6) {
-                    triggerGameOver();
-                }
-
-                if (obs.position.z > player.position.z + 30) {
-                    scene.remove(obs);
-                    obstacles.splice(index, 1);
-                }
-            });
-
-            updateCameraPosition();
-            updateSound();
+            renderer.render(scene, camera);
         }
 
-        function triggerGameOver() {
+        function endGame() {
             isGameOver = true;
             playCrashSound();
+            document.getElementById('stunt-status').style.display = 'none';
             document.getElementById('final-score').innerText = totalScore;
             document.getElementById('final-stunt-score').innerText = stuntScore;
             document.getElementById('game-over').style.display = 'flex';
         }
 
+        // PERBAIKAN RESET GAME TERMASUK RESET POHON & OBSTACLE
         function resetGame() {
+            isGameOver = false;
+            isPaused = false;
+            distanceScore = 0;
+            stuntScore = 0;
+            totalScore = 0;
+            currentSpeedKmh = baseMinSpeedKmh;
+            currentStuntMode = 0;
+
+            // Bersihkan semua tembok
             obstacles.forEach(obs => scene.remove(obs));
             obstacles = [];
 
+            // Reset Motor
             player.position.set(0, 0, 0);
             player.rotation.set(0, 0, 0);
             currentRotX = 0;
             currentRotZ = 0;
+            lastObstacleZ = 0;
 
-            currentSpeedKmh = 0;
-            distanceScore = 0;
-            stuntScore = 0;
-            totalScore = 0;
-            obstacleSpawnTimer = 0;
-            isGameOver = false;
+            // Reset Jalanan
+            for (let i = 0; i < NUM_SEGMENTS; i++) {
+                const zPos = -i * SEGMENT_SIZE;
+                roadSegments[i].position.z = zPos;
+                groundSegments[i].position.z = zPos;
+            }
 
-            document.getElementById('game-over').style.display = 'none';
-            document.getElementById('stunt-status').style.display = 'none';
+            // PERBAIKAN: Reset posisi Pohon ke sekitar titik awal baru
+            trees.forEach(tree => {
+                const side = Math.random() < 0.5 ? -1 : 1;
+                const xPos = side * (roadWidth / 2 + 2.5 + Math.random() * 22);
+                const zPos = 100 - Math.random() * 900;
+                tree.position.set(xPos, 0, zPos);
+            });
+
+            // Reset Lampu Jalan
+            let lampIdx = 0;
+            for (let z = 100; z > -900; z -= 35) {
+                [-1, 1].forEach(side => {
+                    if (streetLights[lampIdx]) {
+                        streetLights[lampIdx].position.set(side * (roadWidth / 2 + 1.2), 0, z);
+                        lampIdx++;
+                    }
+                });
+            }
 
             updateCameraPosition();
-            if (soundReady && audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
+
+            if (masterGain && audioCtx) {
+                try {
+                    masterGain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                } catch(e){}
             }
+
+            document.getElementById('game-over').style.display = 'none';
+            document.getElementById('pause-screen').style.display = 'none';
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            handleGameLogic();
-            renderer.render(scene, camera);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
         window.onload = init;
